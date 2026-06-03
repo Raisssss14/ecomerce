@@ -1,0 +1,1647 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<title>FiveCenter</title>
+
+<!-- MIDTRANS -->
+
+<script
+src="https://app.sandbox.midtrans.com/snap/snap.js"
+data-client-key="Mid-client-pzAqaD1JXkjkjNlv">
+</script>
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial,sans-serif;
+scroll-behavior:smooth;
+}
+
+body{
+background:#0f172a;
+color:white;
+overflow-x:hidden;
+}
+
+/* HEADER */
+
+.header{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+padding:20px 5%;
+background:rgba(15,23,42,.95);
+backdrop-filter:blur(10px);
+display:flex;
+justify-content:space-between;
+align-items:center;
+z-index:999;
+}
+
+.logo{
+font-size:30px;
+font-weight:bold;
+color:#38bdf8;
+}
+
+.nav{
+display:flex;
+gap:20px;
+align-items:center;
+}
+
+.nav a{
+text-decoration:none;
+color:white;
+transition:.3s;
+}
+
+.nav a:hover{
+color:#38bdf8;
+}
+
+.logout{
+padding:10px 18px;
+border:none;
+border-radius:10px;
+background:red;
+color:white;
+cursor:pointer;
+}
+
+
+.cart-icon{
+position:relative;
+font-size:24px;
+cursor:pointer;
+color:white;
+}
+
+.cart-icon span{
+position:absolute;
+top:-10px;
+right:-12px;
+background:red;
+color:white;
+font-size:12px;
+width:20px;
+height:20px;
+border-radius:50%;
+display:flex;
+align-items:center;
+justify-content:center;
+}
+
+/* CART POPUP */
+
+.cart-popup{
+position:fixed;
+top:90px;
+right:-400px;
+width:350px;
+max-height:500px;
+overflow:auto;
+background:white;
+color:black;
+padding:20px;
+border-radius:20px;
+transition:.3s;
+z-index:1000;
+box-shadow:0 10px 20px rgba(0,0,0,.3);
+}
+
+.cart-popup.active{
+right:20px;
+}
+
+.cart-item{
+padding:15px;
+border-bottom:1px solid #ddd;
+margin-bottom:10px;
+}
+
+.cart-item h3{
+font-size:18px;
+margin-bottom:8px;
+}
+
+/* HERO */
+
+.hero{
+height:90vh;
+
+background:
+linear-gradient(rgba(0,0,0,.6),rgba(0,0,0,.6)),
+url('https://images.unsplash.com/photo-1441986300917-64674bd600d8?q=80&w=1400');
+
+background-size:cover;
+background-position:center;
+background-attachment:fixed;
+
+display:flex;
+justify-content:center;
+align-items:center;
+text-align:center;
+padding:20px;
+}
+
+.hero h1{
+font-size:70px;
+margin-bottom:15px;
+}
+
+.hero p{
+font-size:20px;
+color:#cbd5e1;
+}
+
+/* PRODUK */
+
+.container{
+width:90%;
+margin:auto;
+padding:80px 0;
+}
+
+.title{
+text-align:center;
+font-size:40px;
+margin-bottom:50px;
+color:#38bdf8;
+}
+
+.products{
+display:grid;
+grid-template-columns:
+repeat(auto-fit,minmax(260px,1fr));
+gap:25px;
+}
+
+.card{
+background:#1e293b;
+border-radius:20px;
+overflow:hidden;
+transition:.3s;
+box-shadow:0 10px 20px rgba(0,0,0,.3);
+}
+
+.card:hover{
+transform:translateY(-10px);
+}
+
+.card img{
+width:100%;
+height:240px;
+object-fit:cover;
+}
+
+.content{
+padding:20px;
+}
+
+.content h2{
+margin-bottom:10px;
+}
+
+.price{
+font-size:24px;
+color:#38bdf8;
+margin-bottom:15px;
+font-weight:bold;
+}
+
+.buy-btn{
+width:100%;
+padding:13px;
+border:none;
+border-radius:10px;
+background:#38bdf8;
+color:white;
+cursor:pointer;
+transition:.3s;
+}
+
+.buy-btn:hover{
+background:#0ea5e9;
+}
+
+/* POPUP */
+
+.overlay{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,.7);
+display:none;
+z-index:999;
+}
+
+.overlay.active{
+display:block;
+}
+
+.popup{
+position:fixed;
+top:50%;
+left:50%;
+transform:translate(-50%,-50%) scale(0);
+
+width:95%;
+max-width:430px;
+
+background:white;
+color:black;
+padding:25px;
+border-radius:20px;
+z-index:1000;
+transition:.3s;
+}
+
+.popup.active{
+transform:translate(-50%,-50%) scale(1);
+}
+
+.popup h2{
+margin-bottom:20px;
+}
+
+.popup input{
+width:100%;
+padding:13px;
+margin-bottom:15px;
+border:none;
+border-radius:10px;
+background:#e2e8f0;
+font-size:15px;
+}
+
+.popup button{
+width:100%;
+padding:13px;
+border:none;
+border-radius:10px;
+background:#38bdf8;
+color:white;
+cursor:pointer;
+font-size:15px;
+}
+
+.close{
+position:absolute;
+top:10px;
+right:15px;
+font-size:28px;
+cursor:pointer;
+}
+
+/* PAYMENT INFO */
+
+.payment-info{
+width:100%;
+padding:14px;
+border-radius:12px;
+background:#e0f2fe;
+color:#0369a1;
+font-size:14px;
+margin-bottom:15px;
+line-height:1.6;
+display:flex;
+align-items:center;
+gap:10px;
+}
+
+/* LOADING */
+
+.loading-box{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,.8);
+
+display:flex;
+justify-content:center;
+align-items:center;
+
+z-index:2000;
+
+opacity:0;
+pointer-events:none;
+
+transition:.3s;
+backdrop-filter:blur(5px);
+}
+
+.loading-box.active{
+opacity:1;
+pointer-events:auto;
+}
+
+.loading-content{
+background:white;
+color:black;
+padding:40px;
+border-radius:25px;
+text-align:center;
+width:90%;
+max-width:320px;
+}
+
+.loader{
+width:70px;
+height:70px;
+
+border:7px solid #cbd5e1;
+border-top:7px solid #38bdf8;
+
+border-radius:50%;
+
+margin:auto;
+
+animation:spin 1s linear infinite;
+}
+
+@keyframes spin{
+
+0%{
+transform:rotate(0deg);
+}
+
+100%{
+transform:rotate(360deg);
+}
+
+}
+
+/* FOOTER */
+
+footer{
+background:#111827;
+padding:30px;
+text-align:center;
+margin-top:60px;
+}
+
+@media(max-width:768px){
+
+.hero h1{
+font-size:45px;
+}
+
+.title{
+font-size:30px;
+}
+
+}
+
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+
+<div class="header">
+
+<div class="logo">
+FiveCenter
+</div>
+
+<div class="nav">
+   <div style="
+color:white;
+font-weight:bold;
+margin-right:20px;
+">
+
+Halooo,
+<span id="usernameText"
+style="color:#38bdf8;">
+</span>
+
+</div>
+
+<a href="#">Home</a>
+<a href="#produk">Produk</a>
+
+<div class="cart-icon"
+onclick="toggleCart()">
+
+<i class="fa-solid fa-cart-shopping"></i>
+
+<span id="cartCount">
+0
+</span>
+
+</div>
+
+<button class="logout"
+onclick="logout()">
+Logout
+</button>
+
+</div>
+
+</div>
+
+<!-- HERO -->
+
+<section class="hero">
+
+<div>
+
+<h1>FiveCenter</h1>
+
+<p>
+Platform Website menjual barang kebutuhan anda sehari hari...
+</p>
+
+</div>
+
+</section>
+
+<!-- PRODUK -->
+
+<section class="container"
+id="produk">
+
+<h1 class="title">
+Produk Populer
+</h1>
+
+<div class="products">
+
+<!-- TEMPLATE PRODUK -->
+
+<div class="card">
+<img src="https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?q=80&w=1200">
+<div class="content">
+<h2>Smartphone Gaming</h2>
+<div class="price">Rp 2.190.000</div>
+<button class="buy-btn"
+onclick="tambahKeranjang('Smartphone Gaming',2190000)">
+<i class="fa-solid fa-cart-shopping"></i>
+Masukan Keranjang
+
+
+</button>
+</div>
+</div>
+
+<div class="card">
+<img src="https://images.unsplash.com/photo-1541807084-5c52b6b3adef?q=80&w=687&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D">
+<div class="content">
+<h2>Laptop Gaming</h2>
+<div class="price">Rp 9.800.000</div>
+<button class="buy-btn"
+onclick="tambahKeranjang('Laptop Gaming',9800000)">
+<i class="fa-solid fa-cart-shopping"></i>
+Masukan Keranjang
+</button>
+</div>
+</div>
+
+<div class="card">
+<img src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?q=80&w=1200">
+<div class="content">
+<h2>Headphone Gaming</h2>
+<div class="price">Rp 500.000</div>
+<button class="buy-btn"
+onclick="tambahKeranjang('Headphone  Gaming',500000)">
+<i class="fa-solid fa-cart-shopping"></i>
+Masukan Keranjang
+</button>
+</div>
+</div>
+
+<div class="card">
+<img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?q=80&w=1200">
+<div class="content">
+<h2>Smart Watch</h2>
+<div class="price">Rp 250.000</div>
+<button class="buy-btn"
+onclick="tambahKeranjang('Smartwatch',250000)">
+<i class="fa-solid fa-cart-shopping"></i>
+Masukan Keranjang
+</button>
+</div>
+</div>
+
+<div class="card">
+<img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?q=80&w=1200">
+<div class="content">
+<h2>Sepatu Sneakers</h2>
+<div class="price">Rp 500.000</div>
+<button class="buy-btn"
+onclick="tambahKeranjang('Sneakers',500000)">
+<i class="fa-solid fa-cart-shopping"></i>
+Masukan Keranjang
+</button>
+</div>
+</div>
+
+<div class="card">
+<img src="https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?q=80&w=1200">
+<div class="content">
+<h2>Kaos Fashion</h2>
+<div class="price">Rp 200.000</div>
+<button class="buy-btn"
+onclick="tambahKeranjang('T-Shirt FNB',200000)">
+<i class="fa-solid fa-cart-shopping"></i>
+Masukan Keranjang
+</button>
+</div>
+</div>
+
+<div class="card">
+<img src="https://images.unsplash.com/photo-1512436991641-6745cdb1723f?q=80&w=1200">
+<div class="content">
+<h2>Jaket Premium</h2>
+<div class="price">Rp 550.000</div>
+<button class="buy-btn"
+onclick="tambahKeranjang('Jaket',550000)">
+<i class="fa-solid fa-cart-shopping"></i>
+Masukan Keranjang
+</button>
+</div>
+</div>
+
+<div class="card">
+<img src="https://images.unsplash.com/photo-1553062407-98eeb64c6a62?q=80&w=687&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D">
+<div class="content">
+<h2>Tas Fashion</h2>
+<div class="price">Rp 350.000</div>
+<button class="buy-btn"
+onclick="tambahKeranjang('Tas Fashion',350000)">
+<i class="fa-solid fa-cart-shopping"></i>
+Masukan Keranjang
+</button>
+</div>
+</div>
+
+
+</div>
+
+</section>
+
+<!-- OVERLAY -->
+
+<div class="overlay"
+id="overlay">
+</div>
+
+<!-- CART -->
+<div class="cart-popup"
+id="cartPopup">
+
+<h2>
+Keranjang Belanja
+</h2>
+
+<div id="cartItems">
+
+<p>
+Keranjang kosong
+</p>
+
+</div>
+
+</div>
+
+<!-- POPUP -->
+
+<div class="popup"
+id="popup">
+
+<div class="close"
+onclick="closePopup()">
+×
+</div>
+
+<h2>Form Pembayaran</h2>
+
+<input type="text"
+id="nama"
+placeholder="Nama Pembeli">
+
+<input type="text"
+id="alamat"
+placeholder="Alamat Lengkap">
+
+<input type="email"
+id="email"
+placeholder="Email">
+
+<div class="payment-info">
+
+<i class="fa-solid fa-credit-card"></i>
+
+Pembayaran otomatis menggunakan Midtrans
+
+</div>
+
+<input type="text"
+id="total"
+placeholder="Total Pembayaran"
+readonly>
+
+<button onclick="bayar()">
+Bayar Sekarang
+</button>
+
+</div>
+
+<!-- LOADING -->
+
+<div class="loading-box"
+id="loadingBox">
+
+<div class="loading-content">
+
+<div class="loader"></div>
+
+<h2 style="margin-top:20px;">
+Memproses Pembayaran...
+</h2>
+
+</div>
+
+</div>
+
+<!-- FOOTER -->
+
+<footer>
+
+<p>
+© 2026 FiveCenter 
+</p>
+
+</footer>
+<script>
+
+let cart = [];
+
+/* TOGGLE CART */
+
+function toggleCart(){
+
+document
+.getElementById("cartPopup")
+.classList.toggle("active");
+
+}
+
+/* TAMBAH PRODUK */
+
+function tambahKeranjang(nama,harga){
+
+let existing =
+cart.find(item => item.nama === nama);
+
+if(existing){
+
+existing.qty += 1;
+
+}else{
+
+cart.push({
+
+nama,
+harga,
+qty:1
+
+});
+
+}
+
+updateCart();
+
+}
+
+/* UPDATE CART */
+
+function updateCart(){
+
+const cartItems =
+document.getElementById("cartItems");
+
+const cartCount =
+document.getElementById("cartCount");
+
+cartItems.innerHTML = "";
+
+let total = 0;
+let totalItem = 0;
+
+cart.forEach((item,index)=>{
+
+const subtotal =
+item.harga * item.qty;
+
+total += subtotal;
+
+totalItem += item.qty;
+
+cartItems.innerHTML += `
+
+<div class="cart-item">
+
+<h3>${item.nama}</h3>
+
+<p>
+Rp ${item.harga.toLocaleString("id-ID")}
+</p>
+
+<div
+style="
+display:flex;
+align-items:center;
+gap:10px;
+margin-top:10px;
+">
+
+<button
+onclick="kurangBarang(${index})"
+style="
+padding:6px 12px;
+border:none;
+border-radius:8px;
+background:red;
+color:white;
+cursor:pointer;
+">
+
+-
+
+</button>
+
+<span>
+${item.qty}
+</span>
+
+<button
+onclick="tambahBarang(${index})"
+style="
+padding:6px 12px;
+border:none;
+border-radius:8px;
+background:#38bdf8;
+color:white;
+cursor:pointer;
+">
+
++
+
+</button>
+
+</div>
+
+<p style="margin-top:10px;font-weight:bold;">
+
+Subtotal:
+Rp ${subtotal.toLocaleString("id-ID")}
+
+</p>
+
+</div>
+
+`;
+
+});
+
+cartCount.innerHTML = totalItem;
+
+/* KERANJANG KOSONG */
+
+if(cart.length === 0){
+
+cartItems.innerHTML =
+"<p>Keranjang kosong</p>";
+
+return;
+
+}
+
+/* TOTAL */
+
+cartItems.innerHTML += `
+
+<div style="margin-top:20px;">
+
+<h3>
+Total:
+Rp ${total.toLocaleString("id-ID")}
+</h3>
+
+<button
+onclick="checkoutSemua()"
+style="
+width:100%;
+margin-top:15px;
+padding:13px;
+border:none;
+border-radius:10px;
+background:#38bdf8;
+color:white;
+cursor:pointer;
+">
+
+Checkout Semua
+
+</button>
+
+</div>
+
+`;
+
+}
+
+/* TAMBAH QTY */
+
+function tambahBarang(index){
+
+cart[index].qty += 1;
+
+updateCart();
+
+}
+
+/* KURANG QTY */
+
+function kurangBarang(index){
+
+cart[index].qty -= 1;
+
+if(cart[index].qty <= 0){
+
+cart.splice(index,1);
+
+}
+
+updateCart();
+
+}
+
+/* CHECKOUT SEMUA */
+
+function checkoutSemua(){
+
+if(cart.length === 0){
+
+alert("Keranjang kosong");
+
+return;
+
+}
+
+/* BUKA POPUP */
+
+document
+.getElementById("popup")
+.classList.add("active");
+
+document
+.getElementById("overlay")
+.classList.add("active");
+
+/* HITUNG TOTAL */
+
+let grandTotal = 0;
+
+cart.forEach(item=>{
+
+grandTotal +=
+item.harga * item.qty;
+
+});
+
+/* TAMPILKAN TOTAL */
+
+document
+.getElementById("total")
+.value =
+
+"Rp " +
+
+grandTotal.toLocaleString("id-ID");
+
+}
+
+/* CLOSE POPUP */
+
+function closePopup(){
+
+document
+.getElementById("popup")
+.classList.remove("active");
+
+document
+.getElementById("overlay")
+.classList.remove("active");
+
+}
+
+/* LOADING */
+
+function showLoading(){
+
+document
+.getElementById("loadingBox")
+.classList.add("active");
+
+}
+
+function hideLoading(){
+
+document
+.getElementById("loadingBox")
+.classList.remove("active");
+
+}
+
+/* BAYAR */
+
+async function bayar(){
+
+const nama =
+document.getElementById("nama").value;
+
+const alamat =
+document.getElementById("alamat").value;
+
+const email =
+document.getElementById("email").value;
+
+if(!nama || !alamat || !email){
+
+alert("Lengkapi data");
+
+return;
+
+}
+
+/* TOTAL */
+
+let grandTotal = 0;
+
+cart.forEach(item=>{
+
+grandTotal +=
+item.harga * item.qty;
+
+});
+
+/* PRODUK */
+
+let produkGabung =
+cart.map(item =>
+
+`${item.nama} (${item.qty})`
+
+).join(", ");
+
+showLoading();
+
+try{
+
+const response = await fetch(
+
+"http://localhost:3000/create-transaction",
+
+{
+
+method:"POST",
+
+headers:{
+
+"Content-Type":"application/json"
+
+},
+
+body:JSON.stringify({
+
+nama,
+alamat,
+email,
+
+total: grandTotal,
+
+cartItems: cart
+
+})
+
+}
+
+);
+
+const data = await response.json();
+
+hideLoading();
+
+if(data.token){
+
+snap.pay(data.token,{
+
+onSuccess:function(result){
+
+/* SIMPAN TRANSAKSI */
+
+let transaksi =
+
+JSON.parse(
+localStorage.getItem("transaksi")
+) || [];
+
+transaksi.push({
+
+nama,
+alamat,
+
+produk: produkGabung,
+
+jumlah: cart.length,
+
+metode:
+result.payment_type || "Midtrans",
+
+status:"Berhasil",
+
+total: grandTotal,
+
+tanggal:
+new Date().toLocaleString("id-ID")
+
+});
+
+localStorage.setItem(
+
+"transaksi",
+
+JSON.stringify(transaksi)
+
+);
+
+alert("Pembayaran berhasil");
+
+closePopup();
+
+/* RESET */
+
+cart = [];
+
+updateCart();
+
+document.getElementById("nama").value = "";
+
+document.getElementById("alamat").value = "";
+
+document.getElementById("email").value = "";
+
+},
+
+onPending:function(result){
+
+alert("Pembayaran pending");
+
+console.log(result);
+
+},
+
+onError:function(result){
+
+alert("Pembayaran gagal");
+
+console.log(result);
+
+}
+
+});
+
+}else{
+
+alert("Token gagal dibuat");
+
+}
+
+}catch(error){
+
+hideLoading();
+
+console.log(error);
+
+alert("Server error");
+
+}
+
+}
+
+/* LOGOUT */
+   
+function logout(){
+
+localStorage.removeItem("role");
+
+window.location.href =
+"index.html";
+
+}
+
+</script>
+
+<!-- POPUP IKLAN DASHBOARD FUTURISTIC -->
+
+<div class="future-overlay"
+id="futureAds">
+
+<div class="future-popup">
+
+<div class="future-close"
+onclick="closeFutureAds()">
+×
+</div>
+
+<!-- HEADER -->
+
+<div class="future-header">
+
+<h1>
+🔥 Trending Product
+</h1>
+
+<p>
+Produk terlaris minggu ini
+</p>
+
+</div>
+
+<!-- SLIDER -->
+
+<div class="future-slider">
+
+<div class="future-slides"
+id="futureSlides">
+
+<!-- ITEM 1 -->
+
+<div class="future-slide">
+
+<div class="future-card">
+
+<img
+src="https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?q=80&w=1200">
+
+<div class="future-info">
+
+<h2>Smartphone Gaming</h2>
+
+<p>
+Snapdragon Gen terbaru,
+RAM besar, performa maksimal.
+</p>
+
+<div class="future-price">
+
+Rp 2.190.000
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- ITEM 2 -->
+
+<div class="future-slide">
+
+<div class="future-card">
+
+<img
+src="https://images.unsplash.com/photo-1541807084-5c52b6b3adef?q=80&w=1200">
+
+<div class="future-info">
+
+<h2>Laptop Gaming</h2>
+
+<p>
+Laptop premium untuk gaming
+dan editing ultra cepat.
+</p>
+
+<div class="future-price">
+
+Rp 9.800.000
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- ITEM 3 -->
+
+<div class="future-slide">
+
+<div class="future-card">
+
+<img
+src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?q=80&w=1200">
+
+<div class="future-info">
+
+<h2>Headphone Gaming</h2>
+
+<p>
+Suara surround premium dan
+bass powerful.
+</p>
+
+<div class="future-price">
+
+Rp 500.000
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- ITEM 4 -->
+
+<div class="future-slide">
+
+<div class="future-card">
+
+<img
+src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?q=80&w=1200">
+
+<div class="future-info">
+
+<h2>Smart Watch</h2>
+
+<p>
+Jam tangan modern dengan
+fitur kesehatan lengkap.
+</p>
+
+<div class="future-price">
+
+Rp 250.000
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- DOT -->
+
+<div class="future-dots">
+
+<span class="future-dot active"
+onclick="futureGo(0)">
+</span>
+
+<span class="future-dot"
+onclick="futureGo(1)">
+</span>
+
+<span class="future-dot"
+onclick="futureGo(2)">
+</span>
+
+<span class="future-dot"
+onclick="futureGo(3)">
+</span>
+
+</div>
+
+</div>
+
+</div>
+
+<style>
+
+/* OVERLAY */
+
+.future-overlay{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:
+linear-gradient(
+135deg,
+rgba(15,23,42,.95),
+rgba(30,41,59,.95)
+);
+backdrop-filter:blur(10px);
+display:none;
+justify-content:center;
+align-items:center;
+z-index:99999;
+}
+
+/* POPUP */
+
+.future-popup{
+width:95%;
+max-width:650px;
+background:
+linear-gradient(
+145deg,
+#0f172a,
+#1e293b
+);
+border-radius:35px;
+overflow:hidden;
+position:relative;
+box-shadow:
+0 0 40px rgba(56,189,248,.3);
+animation:futureAnim .6s ease;
+border:1px solid rgba(255,255,255,.08);
+}
+
+/* CLOSE */
+
+.future-close{
+position:absolute;
+top:15px;
+right:20px;
+font-size:32px;
+color:white;
+cursor:pointer;
+z-index:10;
+}
+
+/* HEADER */
+
+.future-header{
+padding:30px;
+text-align:center;
+background:
+linear-gradient(
+90deg,
+#38bdf8,
+#0ea5e9
+);
+color:white;
+}
+
+.future-header h1{
+font-size:35px;
+margin-bottom:10px;
+}
+
+.future-header p{
+font-size:16px;
+opacity:.9;
+}
+
+/* SLIDER */
+
+.future-slider{
+overflow:hidden;
+}
+
+.future-slides{
+display:flex;
+transition:.5s;
+}
+
+/* SLIDE */
+
+.future-slide{
+min-width:100%;
+padding:30px;
+}
+
+/* CARD */
+
+.future-card{
+background:#111827;
+border-radius:25px;
+overflow:hidden;
+box-shadow:
+0 10px 30px rgba(0,0,0,.4);
+}
+
+/* IMAGE */
+
+.future-card img{
+width:100%;
+height:260px;
+object-fit:cover;
+}
+
+/* INFO */
+
+.future-info{
+padding:25px;
+color:white;
+}
+
+.future-info h2{
+font-size:28px;
+margin-bottom:15px;
+color:#38bdf8;
+}
+
+.future-info p{
+line-height:1.8;
+color:#cbd5e1;
+margin-bottom:20px;
+}
+
+/* PRICE */
+
+.future-price{
+font-size:30px;
+font-weight:bold;
+color:#22c55e;
+}
+
+/* DOTS */
+
+.future-dots{
+display:flex;
+justify-content:center;
+gap:12px;
+padding:20px;
+}
+
+.future-dot{
+width:14px;
+height:14px;
+border-radius:50%;
+background:#334155;
+cursor:pointer;
+transition:.3s;
+}
+
+.future-dot.active{
+background:#38bdf8;
+transform:scale(1.3);
+box-shadow:
+0 0 15px #38bdf8;
+}
+
+/* ANIMATION */
+
+@keyframes futureAnim{
+
+0%{
+transform:scale(.6);
+opacity:0;
+}
+
+100%{
+transform:scale(1);
+opacity:1;
+}
+
+}
+
+</style>
+
+<script>
+
+let futureIndex = 0;
+
+const futureSlides =
+document.getElementById("futureSlides");
+
+const futureDots =
+document.querySelectorAll(".future-dot");
+
+/* AUTO POPUP */
+
+window.addEventListener("load", ()=>{
+
+setTimeout(()=>{
+
+document
+.getElementById("futureAds")
+.style.display = "flex";
+
+},1500);
+
+});
+
+/* SHOW */
+
+function futureShow(index){
+
+futureIndex = index;
+
+futureSlides.style.transform =
+
+`translateX(-${index * 100}%)`;
+
+futureDots.forEach(dot=>{
+
+dot.classList.remove("active");
+
+});
+
+futureDots[index]
+.classList.add("active");
+
+}
+
+/* AUTO SLIDE */
+
+function futureAuto(){
+
+futureIndex++;
+
+if(futureIndex > 3){
+
+futureIndex = 0;
+
+}
+
+futureShow(futureIndex);
+
+}
+
+setInterval(futureAuto,3000);
+
+/* MANUAL */
+
+function futureGo(index){
+
+futureShow(index);
+
+}
+
+/* CLOSE */
+
+function closeFutureAds(){
+
+document
+.getElementById("futureAds")
+.style.display = "none";
+
+}
+
+</script>
+<script>
+
+document.getElementById(
+"usernameText"
+).innerHTML =
+
+localStorage.getItem(
+"username"
+) || "User";
+
+</script> 
+
+<script>
+
+let username = localStorage.getItem("username");
+
+if(
+username == null ||
+username == "" ||
+username == "undefined"
+){
+
+username = "Pengunjung";
+
+}
+
+document.getElementById(
+"usernameText"
+).innerHTML = username;
+
+</script>
+
+</body>
+</html>

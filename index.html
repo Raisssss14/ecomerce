@@ -1,0 +1,980 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Login FiveCenter</title>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial,sans-serif;
+}
+
+body{
+height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
+overflow:hidden;
+background:#0f172a;
+}
+
+/* BACKGROUND */
+
+.parallax{
+position:absolute;
+width:100%;
+height:100%;
+background:
+url('https://images.unsplash.com/photo-1519389950473-47ba0277781c?q=80&w=1400');
+background-size:cover;
+background-position:center;
+z-index:-2;
+transition:.1s;
+}
+
+.overlay{
+position:absolute;
+width:100%;
+height:100%;
+background:rgba(0,0,0,.6);
+z-index:-1;
+}
+
+/* LOGIN BOX */
+
+.container{
+width:100%;
+max-width:400px;
+background:rgba(255,255,255,.1);
+backdrop-filter:blur(15px);
+padding:30px;
+border-radius:25px;
+color:white;
+box-shadow:0 10px 30px rgba(0,0,0,.4);
+}
+
+h1{
+text-align:center;
+color:#38bdf8;
+margin-bottom:25px;
+}
+
+/* TABS */
+
+.tabs{
+display:flex;
+margin-bottom:20px;
+gap:10px;
+}
+
+.tab{
+flex:1;
+text-align:center;
+padding:12px;
+background:#1e293b;
+cursor:pointer;
+border-radius:10px;
+transition:.3s;
+}
+
+.active{
+background:#38bdf8;
+}
+
+/* INPUT */
+
+input{
+width:100%;
+padding:13px;
+border:none;
+border-radius:10px;
+margin-bottom:15px;
+background:rgba(255,255,255,.15);
+color:white;
+font-size:15px;
+}
+
+input::placeholder{
+color:#e2e8f0;
+}
+
+/* BUTTON */
+
+button{
+width:100%;
+padding:13px;
+border:none;
+border-radius:10px;
+background:#38bdf8;
+color:white;
+cursor:pointer;
+font-size:15px;
+transition:.3s;
+}
+
+button:hover{
+transform:scale(1.03);
+}
+
+/* INFO */
+
+.info{
+margin-top:20px;
+font-size:14px;
+color:#d1d5db;
+line-height:1.7;
+text-align:center;
+}
+
+</style>
+</head>
+<body>
+
+<div class="parallax"></div>
+<div class="overlay"></div>
+
+<div class="container">
+
+<h1>FiveCenter</h1>
+
+<div class="tabs">
+
+<div class="tab active"
+id="userTab"
+onclick="setRole('user')">
+
+Pengunjung
+
+</div>
+
+<div class="tab"
+id="adminTab"
+onclick="setRole('admin')">
+
+Admin
+
+</div>
+
+</div>
+
+<input type="text"
+id="email"
+placeholder="Email">
+
+<input type="password"
+id="password"
+placeholder="Password">
+
+<button onclick="login()">
+Login
+</button>
+<div style="
+margin-top:15px;
+text-align:center;
+font-size:14px;
+color:#cbd5e1;
+">
+
+Belum punya akun?
+
+<span
+onclick="showRegister()"
+style="
+color:#38bdf8;
+cursor:pointer;
+font-weight:bold;
+">
+Register
+</span>
+
+</div>
+
+</div>
+
+<!-- POPUP IKLAN SLIDE -->
+
+<div class="ads-overlay" id="adsOverlay">
+
+<div class="ads-popup">
+
+<div class="ads-close"
+onclick="closeAds()">
+×
+</div>
+
+<!-- SLIDER -->
+
+<div class="slider">
+
+<div class="slides" id="slides">
+
+<!-- IKLAN 1 -->
+
+<div class="slide">
+
+<img
+src="https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?q=80&w=1200">
+
+<div class="slide-content">
+
+<h1>Smartphone Gaming</h1>
+
+<p>
+Diskon hingga 50% hari ini
+</p>
+
+<button onclick="shopNow()">
+Belanja Sekarang
+</button>
+
+</div>
+
+</div>
+
+<!-- IKLAN 2 -->
+
+<div class="slide">
+
+<img
+src="https://images.unsplash.com/photo-1541807084-5c52b6b3adef?q=80&w=1200">
+
+<div class="slide-content">
+
+<h1>Laptop Gaming</h1>
+
+<p>
+Performa tinggi untuk gaming
+</p>
+
+<button onclick="shopNow()">
+Belanja Sekarang
+</button>
+
+</div>
+
+</div>
+
+<!-- IKLAN 3 -->
+
+<div class="slide">
+
+<img
+src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?q=80&w=1200">
+
+<div class="slide-content">
+
+<h1>Headphone Gaming</h1>
+
+<p>
+Audio jernih dan bass mantap
+</p>
+
+<button onclick="shopNow()">
+Belanja Sekarang
+</button>
+
+</div>
+
+</div>
+
+<!-- IKLAN 4 -->
+
+<div class="slide">
+
+<img
+src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?q=80&w=1200">
+
+<div class="slide-content">
+
+<h1>Smart Watch</h1>
+
+<p>
+Tampil modern dan elegan
+</p>
+
+<button onclick="shopNow()">
+Belanja Sekarang
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- DOT -->
+
+<div class="dots">
+
+<span class="dot active"
+onclick="goSlide(0)">
+</span>
+
+<span class="dot"
+onclick="goSlide(1)">
+</span>
+
+<span class="dot"
+onclick="goSlide(2)">
+</span>
+
+<span class="dot"
+onclick="goSlide(3)">
+</span>
+
+</div>
+
+</div>
+
+</div>
+
+<style>
+
+/* OVERLAY */
+
+.ads-overlay{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,.75);
+backdrop-filter:blur(5px);
+display:none;
+justify-content:center;
+align-items:center;
+z-index:99999;
+}
+
+/* POPUP */
+
+.ads-popup{
+width:95%;
+max-width:500px;
+background:white;
+border-radius:30px;
+overflow:hidden;
+position:relative;
+animation:popupAnim .5s ease;
+}
+
+/* CLOSE */
+
+.ads-close{
+position:absolute;
+top:10px;
+right:18px;
+font-size:32px;
+cursor:pointer;
+color:white;
+z-index:10;
+}
+
+/* SLIDER */
+
+.slider{
+overflow:hidden;
+width:100%;
+}
+
+.slides{
+display:flex;
+transition:.5s;
+}
+
+/* SLIDE */
+
+.slide{
+min-width:100%;
+position:relative;
+}
+
+.slide img{
+width:100%;
+height:450px;
+object-fit:cover;
+}
+
+/* CONTENT */
+
+.slide-content{
+position:absolute;
+bottom:0;
+left:0;
+width:100%;
+padding:30px;
+background:linear-gradient(
+transparent,
+rgba(0,0,0,.85)
+);
+color:white;
+}
+
+.slide-content h1{
+font-size:35px;
+margin-bottom:10px;
+}
+
+.slide-content p{
+font-size:16px;
+margin-bottom:20px;
+color:#e2e8f0;
+}
+
+/* BUTTON */
+
+.slide-content button{
+padding:14px 25px;
+border:none;
+border-radius:14px;
+background:#38bdf8;
+color:white;
+cursor:pointer;
+font-size:15px;
+font-weight:bold;
+transition:.3s;
+}
+
+.slide-content button:hover{
+transform:scale(1.05);
+background:#0ea5e9;
+}
+
+/* DOTS */
+
+.dots{
+display:flex;
+justify-content:center;
+gap:10px;
+padding:18px;
+background:white;
+}
+
+.dot{
+width:12px;
+height:12px;
+border-radius:50%;
+background:#cbd5e1;
+cursor:pointer;
+transition:.3s;
+}
+
+.dot.active{
+background:#38bdf8;
+transform:scale(1.2);
+}
+
+/* ANIMATION */
+
+@keyframes popupAnim{
+
+0%{
+transform:scale(.6);
+opacity:0;
+}
+
+100%{
+transform:scale(1);
+opacity:1;
+}
+
+}
+
+</style>
+
+<script>
+
+let currentSlide = 0;
+
+const slides =
+document.getElementById("slides");
+
+const dots =
+document.querySelectorAll(".dot");
+
+/* AUTO POPUP */
+
+window.onload = function(){
+
+setTimeout(()=>{
+
+document
+.getElementById("adsOverlay")
+.style.display = "flex";
+
+},1000);
+
+}
+
+/* SLIDE FUNCTION */
+
+function showSlide(index){
+
+currentSlide = index;
+
+slides.style.transform =
+
+`translateX(-${index * 100}%)`;
+
+dots.forEach(dot=>{
+
+dot.classList.remove("active");
+
+});
+
+dots[index]
+.classList.add("active");
+
+}
+
+/* NEXT AUTO */
+
+function autoSlide(){
+
+currentSlide++;
+
+if(currentSlide > 3){
+
+currentSlide = 0;
+
+}
+
+showSlide(currentSlide);
+
+}
+
+setInterval(autoSlide,3000);
+
+/* MANUAL */
+
+function goSlide(index){
+
+showSlide(index);
+
+}
+
+/* CLOSE */
+
+function closeAds(){
+
+document
+.getElementById("adsOverlay")
+.style.display = "none";
+
+}
+
+/* SHOP */
+
+function shopNow(){
+
+closeAds();
+
+window.location.href = "#produk";
+
+}
+
+</script>
+
+
+<script>
+
+/* RESET ADMIN */
+
+localStorage.removeItem("adminEmail");
+localStorage.removeItem("adminPassword");
+
+/* ADMIN BARU */
+
+localStorage.setItem(
+"adminEmail",
+"admin"
+);
+
+localStorage.setItem(
+"adminPassword",
+"admin"
+);
+
+/* ROLE */
+
+let role = "user";
+
+/* PILIH ROLE */
+
+function setRole(type){
+
+role = type;
+
+document.getElementById("userTab")
+.classList.remove("active");
+
+document.getElementById("adminTab")
+.classList.remove("active");
+
+if(type=="user"){
+
+document.getElementById("userTab")
+.classList.add("active");
+
+}else{
+
+document.getElementById("adminTab")
+.classList.add("active");
+
+}
+
+}
+
+/* LOGIN */
+
+function login(){
+
+let email =
+document.getElementById("email")
+.value;
+
+let password =
+document.getElementById("password")
+.value;
+
+/* VALIDASI */
+
+if(
+email=="" ||
+password==""
+){
+
+alert("Lengkapi data login!");
+
+return;
+
+}
+
+/* LOGIN ADMIN */
+
+if(role=="admin"){
+
+let adminEmail =
+localStorage.getItem("adminEmail");
+
+let adminPassword =
+localStorage.getItem("adminPassword");
+
+if(
+email===adminEmail &&
+password===adminPassword
+){
+
+localStorage.setItem(
+"role",
+"admin"
+);
+
+window.location.href =
+"admin.html";
+
+}else{
+
+alert("Email atau password admin salah!");
+
+}
+
+}
+
+/* LOGIN USER */
+
+else{
+
+localStorage.setItem(
+"role",
+"user"
+);
+
+localStorage.setItem(
+"userEmail",
+email
+);
+
+window.location.href =
+"shop.html";
+
+}
+
+}
+
+/* PARALLAX */
+
+window.addEventListener("mousemove",(e)=>{
+
+let x = e.clientX / 40;
+let y = e.clientY / 40;
+
+document.querySelector(".parallax")
+.style.transform =
+
+`translate(${x}px,${y}px)`;
+
+});
+
+</script>
+
+<!-- REGISTER POPUP -->
+<!-- REGISTER POPUP -->
+
+<div id="registerPopup"
+style="
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,.7);
+display:none;
+justify-content:center;
+align-items:center;
+z-index:999999;
+">
+
+<div style="
+width:95%;
+max-width:400px;
+background:#1e293b;
+padding:30px;
+border-radius:25px;
+position:relative;
+animation:showRegister .4s ease;
+">
+
+<div
+onclick="closeRegister()"
+style="
+position:absolute;
+top:10px;
+right:15px;
+font-size:30px;
+cursor:pointer;
+color:white;
+">
+×
+</div>
+
+<h2 style="
+text-align:center;
+margin-bottom:25px;
+color:#38bdf8;
+">
+Register Akun
+</h2>
+
+<input
+type="text"
+id="registerUsername"
+placeholder="Username">
+
+<input
+type="text"
+id="registerEmail"
+placeholder="Email">
+
+<input
+type="password"
+id="registerPassword"
+placeholder="Password">
+
+<button onclick="registerAccount()">
+Daftar Sekarang
+</button>
+
+</div>
+
+</div>
+
+<style>
+
+@keyframes showRegister{
+
+0%{
+transform:scale(.7);
+opacity:0;
+}
+
+100%{
+transform:scale(1);
+opacity:1;
+}
+
+}
+
+</style>
+
+<script>
+
+/* BUKA REGISTER */
+
+function showRegister(){
+
+document
+.getElementById("registerPopup")
+.style.display = "flex";
+
+}
+
+/* TUTUP REGISTER */
+
+function closeRegister(){
+
+document
+.getElementById("registerPopup")
+.style.display = "none";
+
+}
+
+/* REGISTER */
+
+async function registerAccount(){
+
+let username =
+document.getElementById("registerUsername").value;
+
+let email =
+document.getElementById("registerEmail").value;
+
+let password =
+document.getElementById("registerPassword").value;
+
+const response = await fetch(
+
+"http://localhost:3000/register",
+
+{
+
+method:"POST",
+
+headers:{
+"Content-Type":"application/json"
+},
+
+body:JSON.stringify({
+
+username,
+email,
+password
+
+})
+
+}
+
+);
+
+const data = await response.json();
+
+if(data.success){
+
+alert("Register berhasil");
+
+closeRegister();
+
+}else{
+
+alert(data.message);
+
+}
+
+}
+
+/* SIMPAN LOGIN LAMA */
+
+const oldLogin = login;
+
+/* LOGIN BARU */
+
+async function login(){
+
+let email =
+document.getElementById("email").value;
+
+let password =
+document.getElementById("password").value;
+
+/* ADMIN */
+
+if(role=="admin"){
+
+if(email=="admin" && password=="admin"){
+
+window.location.href =
+"admin.html";
+
+}else{
+
+alert("Admin salah");
+
+}
+
+return;
+
+}
+
+/* LOGIN USER */
+
+const response = await fetch(
+
+"http://localhost:3000/login",
+
+{
+
+method:"POST",
+
+headers:{
+"Content-Type":"application/json"
+},
+
+body:JSON.stringify({
+
+email,
+password
+
+})
+
+}
+
+);
+
+const data = await response.json();
+
+if(data.success){
+
+localStorage.setItem(
+"username",
+data.user.username
+);
+
+localStorage.setItem(
+"userEmail",
+data.user.email
+);
+
+window.location.href =
+"shop.html";
+
+}else{
+
+alert("Akun tidak ditemukan");
+
+}
+
+}
+
+</script>
+
+</script>
+
+</body>
+</html>

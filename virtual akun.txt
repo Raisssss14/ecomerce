@@ -1,0 +1,15 @@
+npm init -y
+npm install express mysql2 cors midtrans-client
+
+npm install nodemon --save-dev (Auto Reload)
+
+node server.js
+npx nodemon server.js (auto reload)
+
+
+
+Visa Midtrans
+5211 1111 1111 1117
+12/30
+123
+112233

@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dashboard Admin - FiveCenter</title>
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial,sans-serif;
+}
+
+body{
+background:#0f172a;
+color:white;
+overflow-x:hidden;
+}
+
+/* SIDEBAR */
+
+.sidebar{
+position:fixed;
+left:0;
+top:0;
+width:260px;
+height:100vh;
+background:#111827;
+padding:30px 20px;
+box-shadow:5px 0 20px rgba(0,0,0,.3);
+z-index:100;
+}
+
+.logo{
+font-size:28px;
+font-weight:bold;
+color:#38bdf8;
+margin-bottom:40px;
+text-align:center;
+}
+
+.menu{
+display:flex;
+flex-direction:column;
+gap:15px;
+}
+
+.menu a{
+text-decoration:none;
+color:white;
+padding:14px;
+border-radius:12px;
+transition:.3s;
+background:#1e293b;
+display:flex;
+align-items:center;
+gap:10px;
+}
+
+.menu a:hover{
+background:#38bdf8;
+transform:translateX(5px);
+}
+
+/* MAIN */
+
+.main{
+margin-left:260px;
+padding:30px;
+}
+
+/* TOPBAR */
+
+.topbar{
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:30px;
+}
+
+.topbar h1{
+font-size:35px;
+}
+
+.logout{
+padding:12px 20px;
+border:none;
+border-radius:12px;
+background:red;
+color:white;
+cursor:pointer;
+font-size:15px;
+}
+
+/* CARDS */
+
+.cards{
+display:grid;
+grid-template-columns:
+repeat(auto-fit,minmax(250px,1fr));
+gap:25px;
+margin-bottom:35px;
+}
+
+.card{
+background:#1e293b;
+padding:25px;
+border-radius:20px;
+position:relative;
+overflow:hidden;
+transition:.3s;
+box-shadow:0 10px 20px rgba(0,0,0,.3);
+}
+
+.card:hover{
+transform:translateY(-8px);
+}
+
+.card i{
+font-size:40px;
+position:absolute;
+right:20px;
+top:20px;
+opacity:.2;
+}
+
+.card h2{
+font-size:18px;
+margin-bottom:10px;
+color:#cbd5e1;
+}
+
+.card .value{
+font-size:35px;
+font-weight:bold;
+color:#38bdf8;
+}
+
+/* TABLE */
+
+.table-box{
+background:#1e293b;
+padding:25px;
+border-radius:20px;
+overflow:auto;
+box-shadow:0 10px 20px rgba(0,0,0,.3);
+}
+
+.table-title{
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:20px;
+}
+
+table{
+width:100%;
+border-collapse:collapse;
+min-width:1000px;
+}
+
+th{
+background:#38bdf8;
+padding:15px;
+text-align:left;
+}
+
+td{
+padding:15px;
+border-bottom:1px solid #334155;
+}
+
+tr:hover{
+background:#334155;
+}
+
+/* BADGE */
+
+.badge{
+padding:7px 12px;
+border-radius:20px;
+font-size:13px;
+display:inline-block;
+background:#22c55e;
+}
+
+/* DELETE BUTTON */
+
+.delete-btn{
+padding:8px 14px;
+border:none;
+border-radius:10px;
+background:red;
+color:white;
+cursor:pointer;
+transition:.3s;
+}
+
+.delete-btn:hover{
+background:#dc2626;
+transform:scale(1.05);
+}
+
+/* RESPONSIVE */
+
+@media(max-width:900px){
+
+.sidebar{
+width:100%;
+height:auto;
+position:relative;
+}
+
+.main{
+margin-left:0;
+}
+
+}
+
+</style>
+</head>
+<body>
+
+<!-- SIDEBAR -->
+
+<div class="sidebar">
+
+<div class="logo">
+FiveCenter
+</div>
+
+<div class="menu">
+
+<a href="#" id="dashboardBtn">
+<i class="fa fa-chart-line"></i>
+Dashboard
+</a>
+
+<a href="#" id="penjualanBtn">
+<i class="fa fa-cart-shopping"></i>
+Penjualan
+</a>
+
+<a href="#" id="pengunjungBtn">
+<i class="fa fa-users"></i>
+Pengunjung
+</a>
+
+<a href="#" id="pendapatanBtn">
+<i class="fa fa-wallet"></i>
+Pendapatan
+</a>
+
+</div>
+
+</div>
+
+<!-- MAIN -->
+
+<div class="main">
+
+<!-- TOPBAR -->
+
+<div class="topbar">
+
+<h1>Dashboard Admin</h1>
+
+<button class="logout"
+onclick="logout()">
+Logout
+</button>
+
+</div>
+
+<!-- CARDS -->
+
+<div class="cards">
+
+<div class="card">
+
+<i class="fa fa-cart-shopping"></i>
+
+<h2>Total Transaksi</h2>
+
+<div class="value"
+id="totalTransaksi">
+0
+</div>
+
+</div>
+
+<div class="card">
+
+<i class="fa fa-money-bill-wave"></i>
+
+<h2>Total Pendapatan</h2>
+
+<div class="value"
+id="totalPendapatan">
+Rp 0
+</div>
+
+</div>
+
+<div class="card">
+
+<i class="fa fa-box"></i>
+
+<h2>Produk Terjual</h2>
+
+<div class="value"
+id="produkTerjual">
+0
+</div>
+
+</div>
+
+</div>
+
+<!-- TABLE -->
+
+<div class="table-box">
+
+<div class="table-title">
+
+<h2>Data Pembelian</h2>
+
+</div>
+
+<table>
+
+<thead>
+
+<tr>
+
+<th>No</th>
+<th>Nama</th>
+<th>Alamat</th>
+<th>Produk</th>
+<th>Jumlah</th>
+<th>Pembayaran</th>
+<th>Status</th>
+<th>Total</th>
+<th>Tanggal</th>
+<th>Aksi</th>
+
+</tr>
+
+</thead>
+
+<tbody id="tbody">
+
+</tbody>
+
+</table>
+
+</div>
+
+</div>
+
+<script>
+
+/* DATA */
+
+let data =
+JSON.parse(
+localStorage.getItem("transaksi")
+) || [];
+
+let tbody =
+document.getElementById("tbody");
+
+/* RENDER */
+
+function renderTable(list){
+
+tbody.innerHTML = "";
+
+let totalPendapatan = 0;
+let totalProduk = 0;
+
+list.forEach((item,index)=>{
+
+totalPendapatan += item.total;
+
+totalProduk += parseInt(item.jumlah);
+
+tbody.innerHTML += `
+
+<tr>
+
+<td>${index+1}</td>
+
+<td>${item.nama}</td>
+
+<td>${item.alamat}</td>
+
+<td>
+
+${item.produk
+.split(",")
+.map(produk =>
+
+`<div
+style="
+margin-bottom:6px;
+padding:6px 10px;
+background:#334155;
+border-radius:8px;
+">
+
+${produk.trim()}
+
+</div>`
+
+).join("")}
+
+</td>
+
+<td>${item.jumlah}</td>
+
+<td>${item.metode}</td>
+
+<td>
+<span class="badge">
+${item.status}
+</span>
+</td>
+
+<td>
+Rp ${item.total.toLocaleString("id-ID")}
+</td>
+<td>${item.tanggal}</td>
+<td>
+
+<button class="delete-btn"
+onclick="hapusProduk(${index})">
+
+Hapus
+
+</button>
+
+</td>
+
+</tr>
+
+`;
+
+});
+
+/* TOTAL */
+
+document.getElementById("totalTransaksi")
+.innerHTML = list.length;
+
+document.getElementById("produkTerjual")
+.innerHTML = totalProduk;
+
+document.getElementById("totalPendapatan")
+.innerHTML =
+
+"Rp " +
+
+totalPendapatan.toLocaleString("id-ID");
+
+}
+
+/* TAMPIL AWAL */
+
+renderTable(data);
+
+/* MENU DASHBOARD */
+
+document.getElementById("dashboardBtn")
+.onclick = function(){
+
+renderTable(data);
+
+};
+
+/* MENU PENJUALAN */
+
+document.getElementById("penjualanBtn")
+.onclick = function(){
+
+let penjualan =
+data.filter(item => item.total > 0);
+
+renderTable(penjualan);
+
+};
+
+/* MENU PENGUNJUNG */
+
+document.getElementById("pengunjungBtn")
+.onclick = function(){
+
+tbody.innerHTML = "";
+
+let pengunjung = [];
+
+data.forEach(item=>{
+
+if(
+!pengunjung.includes(item.nama)
+){
+
+pengunjung.push(item.nama);
+
+}
+
+});
+
+pengunjung.forEach((nama,index)=>{
+
+tbody.innerHTML += `
+
+<tr>
+
+<td>${index+1}</td>
+
+<td>${nama}</td>
+
+<td colspan="7">
+Pengunjung Aktif
+</td>
+
+</tr>
+
+`;
+
+});
+
+document.getElementById("totalTransaksi")
+.innerHTML = pengunjung.length;
+
+document.getElementById("produkTerjual")
+.innerHTML = "-";
+
+document.getElementById("totalPendapatan")
+.innerHTML = "-";
+
+};
+
+/* MENU PENDAPATAN */
+
+document.getElementById("pendapatanBtn")
+.onclick = function(){
+
+renderTable(data);
+
+};
+
+/* HAPUS */
+
+function hapusProduk(index){
+
+let konfirmasi =
+confirm(
+"Yakin ingin menghapus data ini?"
+);
+
+if(!konfirmasi){
+
+return;
+
+}
+
+data.splice(index,1);
+
+localStorage.setItem(
+"transaksi",
+JSON.stringify(data)
+);
+
+renderTable(data);
+
+}
+
+/* LOGOUT */
+
+
+
+function logout(){
+
+localStorage.removeItem("role");
+
+window.location.href =
+"index.html";
+
+}
+
+</script>
+
+</body>
+</html>
